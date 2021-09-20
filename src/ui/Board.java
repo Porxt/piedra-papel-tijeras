@@ -31,6 +31,7 @@ public class Board extends JFrame implements ActionListener {
         super("Let's Play a Game!!");
 
         initComponents();
+        showResult.setRepeats(false);
         setBounds(10, 10, 500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -121,7 +122,6 @@ public class Board extends JFrame implements ActionListener {
             buttonLizard.setEnabled(false);
             buttonSpock.setEnabled(false);
             buttonNewGame.setEnabled(true);
-            showResult.stop();
         }
     }
 
