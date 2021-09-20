@@ -19,6 +19,13 @@ public class Board extends JFrame implements ActionListener {
     private JButton buttonShowScoreboard;
     private JButton buttonExit;
 
+    // Controllers
+    Timer showResult = new Timer(800, this);
+
+    private final GameMaster master = new GameMaster();
+    private final ComputerIA ia = new ComputerIA();
+    private final GameCanvas canvas = new GameCanvas();
+
     public Board() {
         super("Let's Play a Game!!");
 
@@ -80,7 +87,48 @@ public class Board extends JFrame implements ActionListener {
         add(new JLabel("Here goes The Canvas"), BorderLayout.CENTER);
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent clicked) {
+        int playerChoice;
+        if(clicked.getSource() == buttonExit) {
+            System.exit(0);
+        } else if(clicked.getSource() == buttonNewGame) {
+            ia.makeChoice(master.getGames());
+            buttonRock.setEnabled(true);
+            buttonPaper.setEnabled(true);
+            buttonScissors.setEnabled(true);
+            buttonLizard.setEnabled(true);
+            buttonSpock.setEnabled(true);
+            buttonNewGame.setEnabled(false);
+            canvas.clear();
+        } else if(clicked.getSource() == buttonShowScoreboard) {
+            JOptionPane.showMessageDialog(
+                this,
+                master.toString(),
+                "Puntuación",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+        else if(clicked.getSource() == buttonRock) { play(GameMaster.ROCK); }
+        else if(clicked.getSource() == buttonPaper) { play(GameMaster.PAPER); }
+        else if(clicked.getSource() == buttonScissors) { play(GameMaster.SCISSORS); }
+        else if(clicked.getSource() == buttonLizard) { play(GameMaster.LIZARD); }
+        else if(clicked.getSource() == buttonSpock) { play(GameMaster.SPOCK); }
+        else {
+            canvas.showResult(master.getGameResult());
+            buttonRock.setEnabled(false);
+            buttonPaper.setEnabled(false);
+            buttonScissors.setEnabled(false);
+            buttonLizard.setEnabled(false);
+            buttonSpock.setEnabled(false);
+            buttonNewGame.setEnabled(true);
+            showResult.stop();
+        }
+    }
 
+    private void play(int playerChoice) {
+        GameMaster.playerWins(ia.getComputerChoice(), playerChoice, master);
+        canvas.showHands(playerChoice, ia.getComputerChoice());
+        showResult.start();
+        ia.updateRoulette(playerChoice);
     }
 }
