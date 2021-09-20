@@ -1,5 +1,6 @@
 package ui;
 
+import util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -84,11 +85,10 @@ public class Board extends JFrame implements ActionListener {
         playerOptions.add(buttonSpock);
         add(playerOptions, BorderLayout.SOUTH);
 
-        add(new JLabel("Here goes The Canvas"), BorderLayout.CENTER);
+        add(canvas, BorderLayout.CENTER);
     }
 
     public void actionPerformed(ActionEvent clicked) {
-        int playerChoice;
         if(clicked.getSource() == buttonExit) {
             System.exit(0);
         } else if(clicked.getSource() == buttonNewGame) {
